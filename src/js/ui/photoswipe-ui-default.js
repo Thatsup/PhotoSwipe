@@ -91,7 +91,11 @@ var PhotoSwipeUI_Default =
 			},
 				
 			indexIndicatorSep: ' / ',
-			fitControlsWidth: 1200
+			fitControlsWidth: 1200,
+
+			indexIndicatorFn: function(currIndex, indexIndicatorSep, numItems) {
+				return currIndex + indexIndicatorSep + numItems;
+			}
 
 		},
 		_blockControlsTap,
@@ -708,9 +712,14 @@ var PhotoSwipeUI_Default =
 
 	ui.updateIndexIndicator = function() {
 		if(_options.counterEl) {
-			_indexIndicator.innerHTML = (pswp.getCurrentIndex()+1) + 
-										_options.indexIndicatorSep + 
-										_options.getNumItemsFn();
+			_indexIndicator.innerHTML = _options.indexIndicatorFn.apply(
+				pswp,
+				[
+					(pswp.getCurrentIndex()+1),
+					_options.indexIndicatorSep,
+					_options.getNumItemsFn()
+				] 
+			);
 		}
 	};
 	
